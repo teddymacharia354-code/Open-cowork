@@ -13,7 +13,7 @@ Say *"commit my work"*, *"why is my disk full?"* or *"plan: deploy my app"*. Ope
 ## Quick Start
 
 ```bash
-git clone https://github.com/<you>/open-cowork.git && cd open-cowork
+git clone https://github.com/teddymacharia354-code/Open-cowork.git && cd open-cowork
 pip install -r requirements.txt
 cp .env.example .env && python agent.py
 ```
