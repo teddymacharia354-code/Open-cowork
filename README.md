@@ -12,13 +12,66 @@ Say *"commit my work"*, *"why is my disk full?"* or *"plan: deploy my app"*. Ope
 
 ## Quick Start
 
+### 1. Install
+
 ```bash
-git clone https://github.com/teddymacharia354-code/Open-cowork.git && cd open-cowork
+git clone https://github.com/teddymacharia354-code/Open-cowork.git ~/open-cowork
+cd ~/open-cowork
+
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env && python agent.py
+
+cp .env.example .env
+python agent.py --test
 ```
 
+The explicit clone destination keeps the installation path consistent on case-sensitive filesystems. The virtual environment keeps project dependencies isolated from your system Python.
+
+### 2. Choose how to launch Open Co-Work
+
+You can use either launch method. They both run the same `agent.py` application; they do not create separate agent implementations.
+
+**Option A — `cowork`: one-shot tasks or the interactive REPL**
+
+Make the launcher available as a command:
+
+```bash
+chmod +x ~/open-cowork/cowork
+echo 'export PATH="$HOME/open-cowork:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Run a one-shot task:
+
+```bash
+cowork "Check my Docker containers"
+cowork "Analyze this project"
+cowork --dry-run "Clean up unused Docker resources"
+cowork --test
+```
+
+Run it without a task to enter the interactive experience:
+
+```bash
+cowork
+```
+
+**Option B — `chat.sh`: launch the interactive experience directly**
+
+```bash
+cd ~/open-cowork
+chmod +x chat.sh
+./chat.sh
+```
+
+Both interactive launch methods enter the REPL already implemented in `agent.py`. One Python process creates one Router and one Agent, then reuses them for every message until you exit. This avoids restarting the application and repeating provider startup checks after each message. Conversation context stays in memory for that session; it is not automatically restored when you close and reopen the application.
+
+### 3. Configure an LLM (optional)
+
 Add any free key to `.env` (e.g. `GROQ_API_KEY=...`) or run `ollama pull qwen2.5:7b` for a local model. With neither, the agent still works in **offline mode** (direct commands such as `git status`, `/tool ...`, and a keyword intent matcher). Check your setup any time with `python agent.py --test`.
+
+**Working-directory behaviour:** the launchers locate `agent.py` relative to their own file, but they do not change your current directory. Commands and file operations therefore continue to use the directory from which you launched Open Co-Work.
 
 ## Features
 
