@@ -38,6 +38,7 @@ Make the launcher available as a command:
 
 ```bash
 chmod +x ~/open-cowork/cowork
+grep -qxF 'export PATH="$HOME/open-cowork:$PATH"' ~/.bashrc 2>/dev/null || \\
 echo 'export PATH="$HOME/open-cowork:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
